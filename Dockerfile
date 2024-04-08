@@ -4,7 +4,7 @@ FROM ubuntu:latest
 # Avoid prompts from apt
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install necessary packages including xz-utils for handling .tar.xz files
+# Install necessary packages including xz-utils for handling .tar.xz files, Blender dependencies, common X11 libraries, and OpenGL libraries
 RUN apt-get update && apt-get install -y \
     curl \
     libxi6 \
@@ -13,6 +13,14 @@ RUN apt-get update && apt-get install -y \
     libxkbcommon0 \
     git \
     xz-utils \
+    libxxf86vm1 \
+    libxfixes3 \
+    libsm6 \
+    libice6 \
+    libdbus-1-3 \
+    libxrandr2 \
+    libgl1-mesa-glx \ 
+    libgl1 \  
     && rm -rf /var/lib/apt/lists/*
 
 # Set the Blender version and URL
@@ -36,5 +44,11 @@ ENV PATH="/opt/2gltf2:${PATH}"
 # Set work directory to /data which is a good practice for Docker containers
 WORKDIR /data
 
-# Default to bash
-CMD ["/bin/bash"]
+# Copy the entrypoint script into the container
+COPY docker-entrypoint.sh /usr/local/bin/
+
+# Make the entrypoint script executable
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Set the entrypoint script to be executed when the container starts
+ENTRYPOINT ["docker-entrypoint.sh"]
