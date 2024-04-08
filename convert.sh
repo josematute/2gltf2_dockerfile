@@ -6,27 +6,17 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-# Extract the filename from the path
+# Full path of the input file within the container
+input_file="/data/$1"
+
+# Extract the filename without the path
 filename=$(basename -- "$1")
-extension="${filename##*.}"
-filename="${filename%.*}"
 
-# Define the input and output paths
-input_path="/data/$1"
-output_directory="/output"
-
-# Ensure the output directory exists
-mkdir -p $output_directory
+# Change to the script's directory
+cd /opt/2gltf2
 
 # Execute the conversion
-/opt/2gltf2/2gltf2.sh "$input_path"
+./2gltf2.sh "$input_file"
 
-# Check if the .gltf file has been created successfully
-if [ $? -eq 0 ]; then
-    # Move the .gltf file to the output directory
-    mv "/data/${filename}.gltf" "$output_directory/${filename}.gltf"
-    echo "Conversion successful. Output file located at $output_directory/${filename}.gltf"
-else
-    echo "Conversion failed."
-    exit 1
-fi
+# No need to move the file, assuming the script outputs to the same directory as the input file
+echo "Check the current directory for the output file."
