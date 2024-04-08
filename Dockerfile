@@ -41,14 +41,9 @@ RUN chmod +x /opt/2gltf2/2gltf2.sh
 # Add 2gltf2 to PATH
 ENV PATH="/opt/2gltf2:${PATH}"
 
-# Set work directory to /data which is a good practice for Docker containers
-WORKDIR /data
+# Add the conversion wrapper script and make it executable
+COPY convert.sh /usr/local/bin/convert.sh
+RUN chmod +x /usr/local/bin/convert.sh
 
-# Copy the entrypoint script into the container
-COPY docker-entrypoint.sh /usr/local/bin/
-
-# Make the entrypoint script executable
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-# Set the entrypoint script to be executed when the container starts
-ENTRYPOINT ["docker-entrypoint.sh"]
+# Set the entry point to your wrapper script
+ENTRYPOINT ["/usr/local/bin/convert.sh"]
