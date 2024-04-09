@@ -19,8 +19,11 @@ cd /opt/2gltf2
 # Execute the conversion
 ./2gltf2.sh "$input_file"
 
-# Move the GLTF file to the output directory
-mv "/opt/2gltf2/$filename/$filename.gltf" "/data/output/$filename.gltf"
+# Ensure the output directory exists in /data
+mkdir -p "/data/output/$filename"
 
-# No need to move the file, assuming the script outputs to the same directory as the input file
-echo "Check the current directory for the output file."
+# Move the entire output directory to /data/output
+# This will transfer all converted files and associated resources
+mv "/opt/2gltf2/$filename" "/data/output/"
+
+echo "Check /data/output/$filename for the output files."
