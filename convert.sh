@@ -20,7 +20,7 @@ cd /opt/2gltf2
 ./2gltf2.sh "$input_file"
 
 # Move the GLTF file to the output directory
-mv "/opt/2gltf2/$filename.gltf" "/data/output/$filename.gltf"
+mv "/opt/2gltf2/$filename/$filename.gltf" "/data/output/$filename.gltf"
 
 # No need to move the file, assuming the script outputs to the same directory as the input file
 echo "Check the current directory for the output file."
